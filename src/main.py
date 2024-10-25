@@ -1,11 +1,14 @@
-from src.logger import Logger
-from level_enum import Level
 from threading import Thread
-from faker import Faker
 from pathlib import Path
 import random
 import os
 import time
+
+from faker import Faker
+
+from src.logger import Logger
+from src.enums import Level
+
 
 fake = Faker()
 

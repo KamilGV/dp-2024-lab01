@@ -1,11 +1,13 @@
 import pathlib
-from datetime import datetime
-from src.level_enum import Level
-from src.interfaces import ILogger
 import threading
+from datetime import datetime
+
+from src.enums.level_enum import Level
+from src.interfaces import ILogger
 
 
-mutex = threading.Lock()
+mutex_create = threading.Lock()
+mutex_write = threading.Lock()
 
 
 class Logger(ILogger):
@@ -21,7 +23,7 @@ class Logger(ILogger):
     _instance = None
 
     def __new__(cls, dir_path: pathlib.Path = None):
-        with mutex:
+        with mutex_create:
             if not cls._instance:
                 time = datetime.now().strftime("%yyyy-%m-%d-%H-%M-%S")
                 file_name = f"DP.P1.{time}.log"
@@ -33,7 +35,7 @@ class Logger(ILogger):
 
     def log(self, message: str, level: Level) -> None:
         """Принимает сообщение с уровенем логгирования и запысывает в файл."""
-        with mutex:
+        with mutex_write:
             time = str(datetime.now().strftime("%y-%m-%d %H:%M:%S"))
             with open(self.file_path, 'a') as f:
                 f.write(f"{time} [{level.value}] {message}\n")
