@@ -34,7 +34,13 @@ class Logger(ILogger):
             return cls._instance
 
     def log(self, message: str, level: Level) -> None:
-        """Принимает сообщение с уровенем логгирования и запысывает в файл."""
+        """
+        Метод для записи логаа.
+
+        :param message: Сообщение лога.
+        :param level: Уровень Лога.
+        :return: None.
+        """
         with mutex_write:
             time = str(datetime.now().strftime("%y-%m-%d %H:%M:%S"))
             with open(self.file_path, 'a') as f:

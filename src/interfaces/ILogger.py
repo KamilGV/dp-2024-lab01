@@ -12,5 +12,11 @@ class ILogger(ABC):
     """
     @abstractmethod
     def log(self, message: str, level: Level) -> None:
-        """Метод, который принимает сообщение с уровенем логгирования и запысывает данные."""
+        """
+        Метод для записи логаа.
+
+        :param message: Сообщение лога.
+        :param level: Уровень Лога.
+        :return: None.
+        """
         pass

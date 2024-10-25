@@ -19,7 +19,11 @@ file_path = base_path / "logs"
 
 
 def thread_func():
-    """Создаёт в нескольких потоках логгеры и записывает в них сообщения"""
+    """
+    Создаёт в нескольких потоках логгеры и записывает в них сообщения
+
+    :return None
+    """
     for i in range(3):
         logger = Logger(dir_path=file_path)
 
