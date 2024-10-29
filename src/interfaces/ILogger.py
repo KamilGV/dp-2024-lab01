@@ -10,10 +10,11 @@ class ILogger(ABC):
         Методы:
         log(level, message): Записывает сообщение с заданным уровнем.
     """
+
     @abstractmethod
     def log(self, message: str, level: Level) -> None:
         """
-        Метод для записи логаа.
+        Метод для записи лога.
 
         :param message: Сообщение лога.
         :param level: Уровень Лога.

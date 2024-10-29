@@ -13,7 +13,7 @@ from src.enums import Level
 fake = Faker()
 
 path = os.path.dirname(os.path.abspath(__file__))
-parent_path = os.path.abspath(os.path.join(path, '..'))
+parent_path = os.path.abspath(os.path.join(path, ".."))
 base_path = Path(parent_path)
 file_path = base_path / "logs"
 
@@ -43,5 +43,3 @@ if __name__ == "__main__":
 
     for thread in threads:
         thread.join()
-
-
