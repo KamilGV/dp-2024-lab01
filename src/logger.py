@@ -1,13 +1,9 @@
+from datetime import datetime
 import pathlib
 import threading
-from datetime import datetime
 
 from src.enums.level_enum import Level
 from src.interfaces import ILogger
-
-
-mutex_create = threading.Lock()
-mutex_write = threading.Lock()
 
 
 class Logger(ILogger):
@@ -20,28 +16,36 @@ class Logger(ILogger):
     Методы:
         log(level, message): Записывает сообщение с заданным уровнем.
     """
-    _instance = None
 
-    def __new__(cls, dir_path: pathlib.Path = None):
-        with mutex_create:
+    _instance = None
+    _file_path = None
+    _mutex_create = threading.Lock()
+    _mutex_write = threading.Lock()
+
+    def __new__(cls, *args, **kwargs):
+        with cls._mutex_create:
             if not cls._instance:
-                time = datetime.now().strftime("%yyyy-%m-%d-%H-%M-%S")
-                file_name = f"DP.P1.{time}.log"
-                file_path = dir_path / file_name
                 cls._instance = super().__new__(cls)
-                cls._instance.file_path = file_path
 
             return cls._instance
 
+    def __init__(self, dir_path: pathlib.Path = None):
+        with self._mutex_create:
+            if not self._file_path:
+                time = datetime.now().strftime("%yyyy-%m-%d-%H-%M-%S")
+                file_name = f"DP.P1.{time}.log"
+                file_path = dir_path / file_name
+                self._file_path = file_path
+
     def log(self, message: str, level: Level) -> None:
         """
-        Метод для записи логаа.
+        Метод для записи лога.
 
         :param message: Сообщение лога.
         :param level: Уровень Лога.
         :return: None.
         """
-        with mutex_write:
+        with self._mutex_write:
             time = str(datetime.now().strftime("%y-%m-%d %H:%M:%S"))
-            with open(self.file_path, 'a') as f:
+            with open(self._file_path, "a") as f:
                 f.write(f"{time} [{level.value}] {message}\n")
